@@ -1,0 +1,3 @@
+_cdBashFunc(){
+  cd /work/bitbucket/work/brainchild/bash
+}

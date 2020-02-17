@@ -1,0 +1,28 @@
+_tcpdumpForWireshark(){
+  [ -z "${2+set}" ] && {
+cat << EOF
+Usage: _tcpdumpForWireshark <output> <packet filter string>
+EOF
+} && return
+  tcpdump -nn -v -w $1 ${@:2}
+}
+_tcpdumpAll(){
+  [ -z "${2+set}" ] && {
+cat << EOF
+Usage: _tcpdumpAll <output> <packet filter string>
+EOF
+} && return
+  tcpdump -nn -AA -XX -v -w $1 ${@:2}
+}
+_tcpdumpTest(){
+  echo $#, $@
+  [ -z "${2+set}" ] && {
+cat << EOF
+njndf
+sfdnjnfj
+  mfmskf
+kfsmkmf
+EOF
+} && return
+
+}

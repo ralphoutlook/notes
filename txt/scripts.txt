@@ -1,0 +1,44 @@
+------------------------------------------
+# getopt                          
+------------------------------------------
+#!/bin/bash
+app=$(basename ${BASH_SOURCE[0]})
+usage(){
+cat << EOF
+  $app                                   #
+EOF
+  exit 1;
+}
+opts=$(getopt -o habc:d:e -l acmd,bcmd,cmd:,dcmd:,ecmd,help -- "$@")
+[ $? -ne 0 ] && usage
+eval set -- "$opts"
+while true
+do
+  case $1 in 
+    -a|--acmd)
+      shift
+    ;;
+    -b|--bcmd)
+      shift
+    ;;
+    -c|--ccmd)
+      c=$2
+      shift 2
+    ;;
+    -d|--dcmd)
+      d=$2
+      shift 2
+    ;;
+    -e|--ecmd)
+      shift
+    ;;
+    -h|--help)
+      usage
+    ;;
+    --)
+      shift
+      break; 
+    ;;
+  esac
+done
+

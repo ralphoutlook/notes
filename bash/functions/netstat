@@ -1,0 +1,6 @@
+_netstatTCPListened(){
+  netstat -tln ${@:1}
+}
+_netstatUDPListened(){
+  netstat -uln ${@:1}
+}

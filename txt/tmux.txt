@@ -1,0 +1,25 @@
+
+# tmux 
+------------------------------------------
+# list commands
+$ tmux list-commands
+# show command usage
+$ tmux <command> --help
+# show current session
+$ tmux display-message -p "#S"
+# kill window
+$ tmux list-windows 
+$ tmux kill-window -t <window id>
+# list sessions
+$ tmux list-sessions
+# shortcut
+  After run 'tmux', then
+  <Ctrl+b>
+  # after bind-key, 
+  ?            # show usage
+  %            # split pane left and right
+  "            # split pane top and bottom
+  !            # break the pane out of the window
+  &            # kill current window
+  :            # Enter the tmux command
+

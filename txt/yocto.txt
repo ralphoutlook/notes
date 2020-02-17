@@ -1,0 +1,50 @@
+
+Q: quick start or reference manual?
+A:
+   URL: https://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html
+
+Q: what reference manual said?
+A: 
+   - Essenial packages needed for ubuntu build code system
+       Essentials: Packages needed to build an image on a headless system:
+       
+         $ sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib \
+         build-essential chrpath socat cpio python python3 python3-pip python3-pexpect \
+         xz-utils debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev \
+         pylint3 xterm
+                               
+       Documentation: Packages needed if you are going to build out the Yocto Project documentation manuals:
+       
+         $ sudo apt-get install make xsltproc docbook-utils fop dblatex xmlto
+
+Q: Yocyo release?
+A: 
+   Release Activity
+   Codename	Yocto Project Version	Release Date	Current Version	Support Level	Poky Version	BitBake branch
+   Gatesgarth	3.2	Oct 2020		Dreaming	24.0	1.48
+   Dunfell	3.1	April 2020		Dev	23.0	1.46
+   Zeus	3.0	October 2019	3.0.1	Stable	22.0	1.44
+   Warrior	2.7	April 2019	2.7.2	Stable	21.0	1.42
+   Thud	2.6	Nov 2018	2.6.4	Stable	20.0	1.40
+   Sumo	2.5	April 2018	2.5.3	Community	19.0	1.38
+   Rocko	2.4	Oct 2017	2.4.4	Community	18.0	1.36
+   Pyro	2.3	May 2017	2.3.4	Community	17.0	1.34
+   Morty	2.2	Nov 2016	2.2.4	Community	16.0	1.32
+   Krogoth	2.1	Apr 2016	2.1.3	Community	15.0	1.30
+   Jethro	2.0	Nov 2015	2.0.3	EOL	14.0	1.28
+   Fido	1.8	Apr 2015	1.8.2	EOL	13.0	1.26
+   Dizzy	1.7	Oct 2014	1.7.3	EOL	12.0	1.24
+   Daisy	1.6	Apr 2014	1.6.3	EOL	11.0	1.22
+   Dora	1.5	Oct 2013	1.5.4	EOL	10.0	1.20
+   Dylan	1.4	Apr 2013	1.4.3*	EOL	9.0	1.18
+   Danny	1.3	Oct 2012	1.3.2	EOL	8.0	1.16
+   Denzil	1.2	Apr 2012	1.2.2	EOL	7.0	1.15
+   Edison	1.1	Oct 2011	1.1.2	EOL	6.0	1.13
+   Bernard	1.0	Apr 2011	1.0.2	EOL	5.0	1.11
+   Laverne	0.9	Oct 2010			4.0	1.11
+   Green	N/A	11 June 2010			3.3	
+   Purple	N/A	15 Dec 2009			3.2	
+   Pinky	N/A	12 Nov 2009			3.1	
+   Blinky	N/A	1 Aug 2007			3.0	
+   Clyde	N/A	19 Jan 2007			2.0	
+   Inky	N/A	10 Feb 2006			1.0

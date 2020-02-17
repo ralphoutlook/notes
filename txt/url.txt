@@ -1,0 +1,6 @@
+https://bitbucket.org/advantech_iiot/imx-yocto/src/master/
+http://aclredmine.advantech.com.tw/redmines/asg/projects/uno-220-linux/issues
+https://advantech-iiot.github.io/uno-220/
+http://downloads.raspberrypi.org/raspbian_full/images/raspbian_full-2019-09-30/
+https://github.com/RPi-Distro/pi-gen
+https://www.raspberrypi.org/documentation/hardware/raspberrypi/booteeprom.md

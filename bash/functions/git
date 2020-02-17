@@ -1,0 +1,21 @@
+_gitb(){
+  git branch -a ${@:1}
+}
+_gitl(){
+  git log --graph --oneline --decorate ${@:1}
+}
+_gitla(){
+  git log --graph --oneline --decorate --all ${@:1}
+}
+_gits(){
+  git status -s ${@:1}
+}
+_gitu(){
+  git add .; git commit . -m "${1:-update}"; git push origin ${2:-master}
+}
+_gitfla(){
+  git fetch; _gitla
+}
+_giturl(){
+  echo $(cd ${1:-./}; git remote get-url origin)
+}

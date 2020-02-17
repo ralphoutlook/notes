@@ -1,0 +1,22 @@
+_nvmInstall(){
+  curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+}
+_npmInit(){
+  npm init ${@:1}
+}
+_npmRun(){
+  npm run ${@:1}
+}
+_npmInstall(){
+  npm install ${@:1}
+}
+_npmUninstall(){
+  npm uninstall ${@:1}
+}
+_npmInstallSave(){
+  _npmInstall --save ${@:1}
+}
+_npmInstallSaveDev(){
+  _npmInstall --save-dev ${@:1}
+}
+

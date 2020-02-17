@@ -1,0 +1,37 @@
+watch_usage(){
+cat << EOF
+  usage: 
+    watch -n <n secoonds> <command and arguments>
+    watch <command and arguments>                  # sleep 1s
+EOF
+}
+watch()
+{
+  local TMP_OPTIND=$OPTIND
+  OPTIND=1
+  while getopts "n:hc" flag
+  do
+    case $flag in
+      c)
+        c=1
+        ;;
+      h)
+        watch_usage
+        return
+        ;;
+      n)
+        n=$OPTARG
+        ;;
+    esac 
+  done
+  cmd=${@:$OPTIND}
+  [ -z "$cmd" ] && watch_usage && return
+  #echo "cmd=$cmd"
+  while true; do
+    [ -n "$c" ] && clear
+    date
+    $cmd
+    sleep ${n:-1}
+  done 
+}
+

@@ -1,0 +1,50 @@
+------------------------------------------
+# uno-220 
+------------------------------------------
+# advantech-iiot github
+  https://advantech-iiot.github.io/uno-220/
+  # project/iocard source 
+  https://github.com/Advantech-IIoT/uno-220/tree/project/iocard
+
+# Hardware information: 
+- RTC-RX8010SJ-B
+- TI TCA9554 IO extender
+- Serial to RS-232/485
+
+# raspberry pi 4 model b
+------------------------------------------
+- Memory: 1GB, 2GB, 4GB (use 2G to develop)
+- Image: Raspbian (Debian Buster)
+  - Download URL: http://downloads.raspberrypi.org/raspbian_full/images/raspbian_full-2019-09-30/2019-09-26-raspbian-buster-full.zip 
+
+# show image information
+$ fdisk -l 2019-09-26-raspbian-buster-full.img
+Disk 2019-09-26-raspbian-buster-full.img: 6.4 GiB, 6811549696 bytes, 13303808 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x5e3da3da
+
+Device                               Boot  Start      End  Sectors  Size Id Type
+2019-09-26-raspbian-buster-full.img1        8192   532479   524288  256M  c W95 FAT32 (LBA)
+2019-09-26-raspbian-buster-full.img2      532480 13303807 12771328  6.1G 83 Linux
+
+# mapping loopback device
+$ losetup -o $((512*8192)) --sizelimit $((512*524288)) /dev/loop3 2019-09-26-raspbian-buster-full.img
+$ losetup -o $((512*532480)) --sizelimit $((512*12771328)) /dev/loop4 2019-09-26-raspbian-buster-full.img
+
+# mount loopback device
+$ mkdir -p {boot,root}
+$ mount /dev/loop3 boot
+$ mount /dev/loop4 root
+
+# enable uart 
+$ sed -i -e "/enable_uart=1/d" -e "\$aenable_uart=1" boot/config.txt
+$ sed -i -e "s/console=[^ ]*//g" -e "s/^ *//" -e "s/^/console=serial0,115200 console=tty1 /" boot/cmdline.txt
+# disable uart
+$ sed -i -e "/enable_uart=1/d" boot/config.txt
+$ sed -i -e "s/console=[^ ]*//g" -e "s/^ *//" boot/cmdline.txt
+
+$ losetup -d /dev/loop{3,4}
+$ umount {boot,root}

@@ -1,0 +1,27 @@
+
+
+------------------------------------------
+Q: print bash function?
+A: 
+   # type
+     $ type func
+   # declare
+     # list all functions
+     $ declare -f
+     # print func
+     $ declare -f func
+
+------------------------------------------
+Q: How to check desktop GUI installed in Ubuntu 
+   by terminal command line?
+A: 
+  # check if X11 installed
+  $ dpkg -l | grep xserver
+  $ dpkg -l | egrep -i "(kde|gnome|lxde|xfce|mint|unity|fluxbox|openbox)" | grep -v library
+  $ ls /usr/bin/*session egrep -i "(kde|gnome|lxde|xfce|mint|unity|fluxbox|openbox)" 
+
+------------------------------------------
+Q: pulseaudio configuration?
+A: 
+   ~/.config/pulse
+   ~/.pulse*

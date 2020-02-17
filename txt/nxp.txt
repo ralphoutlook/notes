@@ -1,0 +1,26 @@
+
+
+Q: NXP i.mx office docs? 
+A: 
+   Software > Embedded Software > Linux® Software and Development Tools > Embedded Linux for i.MX Applications Processors
+
+   URL: https://www.nxp.com/design/software/embedded-software/linux-software-and-development-tools/embedded-linux-for-i.mx-applications-processors:IMXLINUX?tab=Documentation_Tab
+
+Q: Advantech NXP i.mx Wiki? 
+A: 
+   URL: http://ess-wiki.advantech.com.tw/view/IoTGateway/BSP/Linux/iMX6/Yocto_LBV8_User_Guide
+
+temp:
+  # bitbucket
+    user: advantechralph
+    repo: imx-yocto
+    branch: master
+    git: https://advantechralph@bitbucket.org/advantech_iiot/imx-yocto.git
+  # advantech wiki
+    https://github.com/ADVANTECH-Corp/adv-arm-yocto-bsp
+  # tsu gitlab server 
+    readme: 
+      https://github.com/ADVANTECH-Corp/adv-arm-yocto-bsp/blob/imx-4.1-krogoth/README
+    url: git@tsuserver:ralph.wang/yocto.git
+    branch: adv/wise-3310
+

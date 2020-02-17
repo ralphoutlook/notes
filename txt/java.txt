@@ -1,0 +1,30 @@
+
+------------------------------------------
+# JVM: Java Virtual Machine
+# JDK: Java Development Kit
+# JRE: Java Runtime Environment = JVM + Java SE API
+# Install JRE and JDK
+$ apt-get update && apt-get install -y \
+  openjdk-8-jre \
+  openjdk-8-jdk
+
+# Makefile sample
+JVM=/usr/bin/java
+JAVAC=/usr/bin/javac
+all: 
+	@mkdir -p classes
+	@$(JAVAC) -sourcepath src -d classes src/HelloWorld.java
+
+# src/HelloWorld.java
+
+package cc.openhome
+public class HelloWorld {
+  public static void main(String[] args){
+    System.out.println("Hello World!");
+  }
+}
+
+# run HelloWorld.class
+
+$ /usr/bin/java -cp classes cc.openhome.HelloWorld
+

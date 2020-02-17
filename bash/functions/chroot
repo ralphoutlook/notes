@@ -1,0 +1,56 @@
+_chrootOverlayFSCreate(){
+  _d=${1:-/work/overlay}
+  mkdir -p ${_d}/{upper,work,merged}
+  modprobe overlay
+#  mount -t overlay overlay -olowerdir=/,upperdir=${_d}/upper,workdir=${_d}/work ${_d}/merged
+#  mount -o bind /dev ${_d}/merged/dev
+#  mount -t proc proc ${_d}/merged/proc
+#  mount -t sysfs sys ${_d}/merged/sys
+#  mount -o bind /media/sf_share ${_d}/merged/media/sf_share
+}
+_chrootOverlayFSStop(){
+  _d=${1:-/work/overlay}
+  umount ${_d}/merged/{dev/pts,dev,proc,sys,media/sf_share}
+}
+_chrootOverlayFSStart(){
+  _d=${1:-/work/overlay}
+  mount -t overlay overlay -olowerdir=/,upperdir=${_d}/upper,workdir=${_d}/work ${_d}/merged
+  mount -o bind /dev ${_d}/merged/dev
+  mount -t proc proc ${_d}/merged/proc
+  mount -t sysfs sys ${_d}/merged/sys
+  mount -o bind /media/sf_share ${_d}/merged/media/sf_share
+  mount -o bind /dev/pts ${_d}/merged/dev/pts
+  sed -i -e '$a#chroot PS1\nPS1='"'"'${debian_chroot:+($debian_chroot)}\\u@'"$(basename ${_d})"':\\w\\\$ '"'" -e '/#chroot PS1/,+2d' ${_d}/merged/root/.bashrc
+  chroot ${_d}/merged
+}
+_chrootOverlayFS(){
+  _d=${1:-/work/overlay}
+  chroot ${_d}/merged
+}
+_chrootOverlayFSRemove(){
+  _d=${1:-/work/overlay}
+  _chrootOverlayFSStop ${@:1}
+  rm -rf ${_d}/merged/{dev,proc,sys,media/sf_share,}
+}
+_overlayFSPrefix=/work/
+_chrootCreate(){
+  [ -z "$1" ] && echo "_chrootCreate <name>" && return
+  _chrootOverlayFSCreate /work/overlay/$1
+}
+_chrootStart(){
+  [ -z "$1" ] && echo "_chrootStart <name>" && return
+  _chrootOverlayFSStart /work/overlay/$1
+}
+_chrootStop(){
+  [ -z "$1" ] && echo "_chrootStop <name>" && return
+  _chrootOverlayFSStop /work/overlay/$1
+}
+_chroot(){
+  [ -z "$1" ] && echo "_chroot <name>" && return
+  _chrootOverlayFS /work/overlay/$1
+}
+_chrootRemove(){
+  [ -z "$1" ] && echo "_chrootRemove <name>" && return
+  _chrootOverlayFSRemove /work/overlay/$1
+  rm -rf /work/overlay/$1
+}

@@ -1,0 +1,192 @@
+yocto recipe 
+此篇文章介紹如何透過 yocto 的 utilities 來產生 recipe. 而完成的 recipe 又如何加入到 image.
+
+yocto 相關工具介紹
+有三個適用於 layer 與 recipe 相關的 utilities.
+
+bitbake-layers: 負責 (1) 建立 layer. (2) 修改 bblayers.conf. (3) 查看 layer 底下的 recipes
+recipetool: 用於建立一個 recipe 和新增/修改 recipe. 這邊 recipe 在 yocto 即是 xx.bb 或 xx.bbappend 檔案
+devtool: 定位在開發測試上. devtool 會建立一個獨立的 workspace layer. 讓開發者於此建立/修改 recipe 與 patch source code. 在不修改原有設定下與現有 layers 進行整合測試. 完畢之後可以再透過 devtool 新增或更新到 layer 裡
+利用 utilities 撰寫 recipe 的時候. 要確保所屬的 layer 是存在於 bblayer.conf. 不然執行 bitbake [recipe basename] 會找不到相關的 recipe.
+
+yocto 事前準備
+以 core-image-miniaml recipe 為例子. core-image-miniaml 會產生系統所需的 image 相關檔案. 接著利用 bitbake-layers 建立自己的 layer 於 build 目錄底下. 再透過 bitbake-layers 把 layer 加入到 bblayers.conf 設定檔.
+
+[yijyun@localhost poky]$ . oe-init-build-env
+[yijyun@localhost build]$ bitbake core-image-minimal
+[yijyun@localhost build]$ bitbake-layers create-layer meta-layer
+[yijyun@localhost build]$ bitbake-layers add-layer meta-layer
+[yijyun@localhost build]$ ls
+bitbake-cookerdaemon.log  cache  conf  downloads  meta-layer  sstate-cache  tmp
+新增 recipe
+以 devtool 與 recipetool 個別示範如何產生 recipe. 步驟有參閱[1][2][3]在做些修改. 經由工具產生 recipe 的時候, 若是 source code 來源(e.g. git, ftp, tar, etc.)以及編譯方式(cmake, make, etc.)是可以被解析的. 經工具所產生的 recipe 幾乎都不需要多做修改. 而以下說明兩個範例各自的情境:
+
+devtool 範例: 使用 GIFLIB 套件. 由於 GIFLIB 基於 autotool, configure 與 Makefile. devtool 可以分析並幫助我們產生無須修改的 recipe.
+recipetool 範例: 這邊以自身撰寫程式的經驗. 程式只會有 header file 與 source file. 並搭配 Makefile 來編譯的專案. 所以 recipetool 產生的 recipe 需要修改.
+1. devtool 指令
+devtool 產生 recipe 時候, 會先建立一個 workspace layer, 並在目錄底下產生 giflib recipe. 由於 source code 格式符合 yocto, 產生出來的 recipe 並不需要額外修改.
+
+[yijyun@localhost build]$ devtool add giflib git://git.code.sf.net/p/giflib/code
+[yijyun@localhost build]$ ls . workspace/recipes/giflib/
+.:
+bitbake-cookerdaemon.log  cache  conf  downloads  meta-layer  sstate-cache  tmp  workspace
+
+workspace/recipes/giflib/:
+giflib_git.bb
+接著 devtool build giflib 來進行編譯. 這邊只有單純進行編譯的動作而已.
+
+[yijyun@localhost build]$ devtool build giflib
+[yijyun@localhost build]$ ls tmp/work/i586-poky-linux/giflib/5.1.4+git999-r0/
+configure.sstate   giflib-5.1.4+git999  package         pkgdata  recipe-sysroot         sysroot-destdir
+debugsources.list  image                packages-split  pseudo   recipe-sysroot-native  temp
+執行 devtool build-image core-image-minimal 把 giflib 打包成 rpm package 並加入到 core-image-minimal 的 image 裡面. 之後可以看到 giflib ${WORKDIR} 底下多了 deploy-rpms 目錄. 同樣在 tmp/deploy/rpm/i586/ 目錄與 core-image-minimal 的 rootfs 目錄底下皆有 giflib 的相關檔案
+
+[yijyun@localhost build]$ devtool build-image core-image-minimal
+
+[yijyun@localhost build]$ ls tmp/work/i586-poky-linux/giflib/5.1.4+git999-r0/deploy-rpms/i586/
+giflib-5.1.4+git999-r0.i586.rpm  giflib-dbg-5.1.4+git999-r0.i586.rpm  giflib-dev-5.1.4+git999-r0.i586.rpm
+
+[yijyun@localhost build]$ ls tmp/deploy/rpm/i586/ | grep giflib
+giflib-5.1.4+git999-r0.i586.rpm
+giflib-dbg-5.1.4+git999-r0.i586.rpm
+giflib-dev-5.1.4+git999-r0.i586.rpm
+
+[yijyun@localhost build]$ ls tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/rootfs/usr/lib/
+libgif.so.7  libgif.so.7.0.0  libkmod.so.2  libkmod.so.2.3.2  opkg
+上述過程都沒有任何問題後. 再用 devtool finish giflib meta-layer. 把 giflib recipe 加入到自己建立的 meta-layer 底下. 以上就是經由 devtool 完成 recipe 的過程
+
+[yijyun@localhost build]$ devtool finish giflib meta-layer
+
+[yijyun@localhost build]$ ls meta-layer/recipes-giflib/giflib/
+giflib_git.bb
+2. recipetool 指令
+以自行撰寫的 hello project 為例子. 首先建立 meta-layer/recipes-myproject/myproject/files 目錄, 並把程式放置於此. 程式的內容如下:
+
+yijyun@yijyun-wd-disk:/root/GitHub_Code/poky/build$ ls meta-layer/recipes-myproject/myproject/files/
+hello.c  hello.h  hellolib.c  Makefile
+補充:
+這邊目錄名稱取為 files. 主要是 yocto 預設搜尋檔案的路經關係. 可用 bitbake -e myproject| grep ^FILESPATH= 來觀看
+
+yijyun@yijyun-wd-disk:/root/GitHub_Code/poky/build$ bitbake -e myproject| grep ^FILESPATH= | sed 's/:/\n/g'
+FILESPATH="/root/GitHub_Code/poky/build/meta-layer/recipes-myproject/myproject/myproject-1.0/poky
+...
+/root/GitHub_Code/poky/build/meta-layer/recipes-myproject/myproject/files/"
+hello.h header file 純粹 extern hellowlib.c 的 LibHellowWorld 函數.
+
+#ifndef HELLO_EXAMPLE_H
+#define HELLO_EXAMPLE_H
+/*
+ * Example function
+ */
+extern void LibHelloWorld(void);
+
+#endif /* HELLO_EXAMPLE_H */
+ 
+hellolib.c 實作 LibHellowWorld 函數. 單純輸出訊息
+
+#include <stdio.h>
+#include "hello.h"
+
+void LibHelloWorld()
+{
+  printf("Hello World (from a shared library!)\n");
+}
+hell.c. 輸出訊息並引用 lib 的輸出函數
+
+#include <stdlib.h>
+#include "hello.h"
+
+int main(int argc, char *argv[])
+{
+  printf("Hello Yocto World...\n");
+  LibHelloWorld();
+  return 0;
+}
+Makefile 撰寫如何編譯此專案的規則. 若是編譯過程有發生 No GNU_HASH in the elf binary 錯誤. 可參閱 [6]
+
+SRCS := $(wildcard *.c)
+OBJS := $(SRCS:.c=.o)
+# hello
+HELLO_OBJS := $(filter hello%.o, $(OBJS))
+TARGET_HELLO := hello
+# targets
+TARGET :=  $(TARGET_HELLO)
+# varables used in yocto
+bindir ?= /usr/bin
+
+LIBS :=
+
+.PHONY: clean all
+
+all: $(TARGET)
+
+%.o : %.c
+ $(CC) -c $< -o $@ ${LDFLAGS} ${LIBS}
+
+$(TARGET_HELLO) : $(OBJS)
+ $(CC) $(HELLO_OBJS) -o $@ ${LIBS} ${LDFLAGS}
+
+install:
+ install -d $(DESTDIR)$(bindir)
+ install -m 755 $(TARGET_HELLO) $(DESTDIR)$(bindir)/
+最後需要修改 myproject.bb 檔案. 由於採用 Makefile 格式, 只需要修改兩個地方即可.
+(1) 修改 SRC_URI 為 file://*. 由於只存在 source codes 於 files 目錄. 但是並沒有指定是那些檔案. 所以用 * 來表示所有檔案
+(2) 設定 S 為 ${WORKDIR}. 指定 build 的目錄所在位置.
+
+LICENSE = "CLOSED"
+LIC_FILES_CHKSUM = ""
+
+# modify SRC_URI from "" to "file://*"
+SRC_URI = "file://*"
+
+# add this line.
+# P.S. S => The location in the Build Directory where unpacked recipe source code resides.
+S = "${WORKDIR}"
+
+do_configure () {
+}
+do_compile () {
+ oe_runmake
+}
+do_install () {
+ oe_runmake install 'DESTDIR=${D}'
+}
+在執行 bitbke myproject 進行編譯. 可以看到編譯成功以及所產生的相關檔案. 以上就是 recipetool 的方法.
+
+yijyun@yijyun-wd-disk:/root/GitHub_Code/poky/build$ bitbake myproject
+yijyun@yijyun-wd-disk:/root/GitHub_Code/poky/build$ ls tmp/work/i586-poky-linux/myproject/1.0-r0/
+...
+hello              hellolib.c  image       myproject-1.0    packages-split  pseudo   root
+新增 recipe 於 image
+新的 recipe 撰寫完畢後, 便要想辦法加入到 image 裡面. 而 [4] 有列出幾種方式.
+然而我的目標是不修改其他 recipe下, 把新的 recipe 加入到 image 裡, 所以採用修改 local.conf 的方式, 如下所示
+
+修改 local.conf
+在 local.conf 的 IMAGE_INSTALL 變數中添加所需的 recipe
+IMAGE_INSTALL_append = " [recipe_basename]" (文件不推薦這種寫法 IMAGE_INSTALL += "[recipe_basename]")
+# e.g. IMAGE_INSTALL_append = " strace"
+
+若如果想限制於特定產生 image 的 recipe
+IMAGE_INSTALL_append_pn-core-image-minimal = " [recipe_basename]"
+# e.g. IMAGE_INSTALL_append_pn-core-image-minimal = " strace"
+
+IMAGE_INSTALL 定義:
+Specifies the packages to install into an image. The IMAGE_INSTALL variable is a mechanism for an image recipe and you should use it with care to avoid ordering issues.
+
+以上述的兩個 recipes 來說, 只需要在 build/local.conf 加入此行
+
+# append this line on build/local.conf
+IMAGE_INSTALL_append = " giflib myproject"
+先查看 rootfs 底下的檔案. 目前是沒有 giflib 與 myproject. 接著 bitbake core-image-minimal. 再次查看就會看到相關的檔案被安裝了.
+
+yijyun@yijyun-wd-disk:/root/GitHub_Code/poky/build$ ls tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/rootfs/usr/lib/
+libkmod.so.2  libkmod.so.2.3.2  opkg
+
+yijyun@yijyun-wd-disk:/root/GitHub_Code/poky/build$ bitbake core-image-minimal
+
+yijyun@yijyun-wd-disk:/root/GitHub_Code/poky/build$ ls tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/rootfs/usr/lib/
+libgif.so.7  libgif.so.7.0.0  libkmod.so.2  libkmod.so.2.3.2  opkg
+yijyun@yijyun-wd-disk:/root/GitHub_Code/poky/build$ ls tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/rootfs/usr/bin/
+cmp         env       gifclrmp  hello           less           nc        readlink   shuf     time        unzip                wall.sysvinit
+...
+clear     dumpleases  gifbuild  head      last.sysvinit   mkfifo         printf    sha256sum  tftp     unlink   

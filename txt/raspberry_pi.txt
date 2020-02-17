@@ -1,0 +1,13 @@
+
+Q: How to read Raspberry Pi 4 EEPROM bootloader version?
+A: vcgencmd bootloader_version
+
+Q: Raspberry Pi 4 hardware information? 
+A: 
+  CPU: Quad core Cortex-A72 (ARM v8) 
+       64-bit SoC @ 1.5GHz
+  Memory: 1GB/2GB/4GB
+
+Q: Rasbian image download URL?
+A: 
+   http://downloads.raspberrypi.org/raspbian_full/images/raspbian_full-2019-09-30/2019-09-26-raspbian-buster-full.zip

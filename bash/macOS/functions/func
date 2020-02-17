@@ -1,0 +1,18 @@
+_scriptDir=$(cd $(dirname ${BASH_SOURCE[0]})/../../functions; pwd)
+_currDir=$(cd $(dirname ${BASH_SOURCE[0]}); pwd)
+
+source ${_scriptDir}/ctags
+source ${_scriptDir}/git
+source ${_scriptDir}/android
+source ${_scriptDir}/nodejs
+source ${_scriptDir}/docker
+source ${_scriptDir}/chroot
+source ${_scriptDir}/cd
+source ${_scriptDir}/tcpdump
+source ${_scriptDir}/variable
+source ${_scriptDir}/top
+source ${_scriptDir}/netstat
+source ${_scriptDir}/pkg-config
+source ${_scriptDir}/encdec
+source ${_currDir}/watch
+

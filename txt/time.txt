@@ -1,0 +1,32 @@
+
+
+# hwclock
+------------------------------------------
+# read RTC
+
+$ sudo hwclock -r 
+2020-02-04 06:08:09.497432+00:00
+
+# date
+------------------------------------------
+# system date time
+
+$ date
+
+# with format
+
+$ date "+%Y/%m/%d %T"
+2020/02/04 06:10:31
+
+# timedatectl (systemd)
+------------------------------------------
+
+$ sudo timedatectl
+               Local time: Tue 2020-02-04 06:07:03 GMT
+           Universal time: Tue 2020-02-04 06:07:03 UTC
+                 RTC time: Tue 2020-02-04 06:07:04
+                Time zone: Europe/London (GMT, +0000)
+System clock synchronized: yes
+              NTP service: active
+          RTC in local TZ: no
+

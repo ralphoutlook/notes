@@ -1,0 +1,5 @@
+_pkgConfigListPath(){
+  echo '$(pkg-config --variable pc_path pkg-config)='$(pkg-config --variable pc_path pkg-config)
+  echo '$PKG_CONFIG_PATH='$PKG_CONFIG_PATH
+  echo '$PKG_CONFIG_LIBDIR='$PKG_CONFIG_LIBDIR
+}

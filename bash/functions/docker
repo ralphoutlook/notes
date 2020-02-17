@@ -1,0 +1,6 @@
+_dockerStartAll(){
+  docker start -i all
+}
+_dockerExecAllBash(){
+  docker exec -it all bash
+}

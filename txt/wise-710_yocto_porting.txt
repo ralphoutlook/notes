@@ -1,0 +1,18 @@
+
+------------------------------------------
+schedule evaluation: 
+  - target: 14 weeks
+  - action items: 
+    - study and test
+      - repo, bitbake, yocto
+        - repo
+          - manifest framework test
+        - bitbake
+          - layers, recipes
+      - NXP official yocto release
+        - compile test
+    - build yocto framework
+      - 
+
+------------------------------------------
+

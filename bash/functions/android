@@ -1,0 +1,26 @@
+_adb(){
+  /opt/android-sdk/platform-tools/adb ${@:1}
+}
+# adb shell setprop persist.adb.tcp.port
+_adbConnect(){
+  _adb connect $1:$2
+}
+_apkInstall(){
+  _adb install ${@:1}
+}
+_apkUninstall(){
+  _adb shell pm uninstall ${@:1}
+}
+_apkReinstall(){
+  _apkUninstall
+  _apkInstall
+}
+_adbShell(){
+  _adbShellNet ${@:1}
+}
+_adbShellUSB(){
+  _adb -d shell ${@:1}
+}
+_adbShellNet(){
+  _adb -e shell ${@:1}
+}

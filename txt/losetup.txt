@@ -1,0 +1,12 @@
+
+
+------------------------------------------
+# losetup
+------------------------------------------
+# get new loopback device 
+losetup -f
+# loopback file and device with offset and size limit 
+losetup -o <offset> --sizelimit <size> -f <file|device> 
+ or 
+losetup -o <offset> --sizelimit <size> <loopdev, ex: /dev/loop0> <file|device> 
+
