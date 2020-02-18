@@ -111,8 +111,90 @@ giflib built objects
 $ find tmp/work/*-poky-linux -mindepth 1 -maxdepth 1 -type d -name "giflib*"
 ```
 
+### recipetool
+create recipe files folder
+```
+$ mkdir -p meta-layer/recipes-myproject/myproject/files
+```
 
+in `meta-layer/recipes-myproject/myproject/files`:    
+hello.c
+```
+SRCS := $(wildcard *.c)
+OBJS := $(SRCS:.c=.o)
+# hello
+HELLO_OBJS := $(filter hello%.o, $(OBJS))
+TARGET_HELLO := hello
+# targets
+TARGET :=  $(TARGET_HELLO)
+# varables used in yocto
+bindir ?= /usr/bin
 
+LIBS :=
+
+.PHONY: clean all
+
+all: $(TARGET)
+
+%.o : %.c
+ $(CC) -c $< -o $@ ${LDFLAGS} ${LIBS}
+
+$(TARGET_HELLO) : $(OBJS)
+ $(CC) $(HELLO_OBJS) -o $@ ${LIBS} ${LDFLAGS}
+
+install:
+ install -d $(DESTDIR)$(bindir)
+ install -m 755 $(TARGET_HELLO) $(DESTDIR)$(bindir)/
+```
+hello.h
+```
+#ifndef HELLO_EXAMPLE_H
+#define HELLO_EXAMPLE_H
+/*
+ * Example function
+ */
+extern void LibHelloWorld(void);
+
+#endif /* HELLO_EXAMPLE_H */
+```
+hellolib.c
+```
+#include <stdio.h>
+#include "hello.h"
+
+void LibHelloWorld()
+{
+  printf("Hello World (from a shared library!)\n");
+}
+```
+Makefile
+```
+SRCS := $(wildcard *.c)
+OBJS := $(SRCS:.c=.o)
+# hello
+HELLO_OBJS := $(filter hello%.o, $(OBJS))
+TARGET_HELLO := hello
+# targets
+TARGET :=  $(TARGET_HELLO)
+# varables used in yocto
+bindir ?= /usr/bin
+
+LIBS :=
+
+.PHONY: clean all
+
+all: $(TARGET)
+
+%.o : %.c
+        $(CC) -c $< -o $@ ${LDFLAGS} ${LIBS}
+
+$(TARGET_HELLO) : $(OBJS)
+        $(CC) $(HELLO_OBJS) -o $@ ${LIBS} ${LDFLAGS}
+
+install:
+        install -d $(DESTDIR)$(bindir)
+        install -m 755 $(TARGET_HELLO) $(DESTDIR)$(bindir)/
+```
 
 ### bitbake
 basic bitbake tree
