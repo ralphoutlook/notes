@@ -113,7 +113,7 @@ giflib built objects
 $ find tmp/work/*-poky-linux -mindepth 1 -maxdepth 1 -type d -name "giflib*"
 ```
 
-### recipetool
+### ddevtool with Makefile package
 create recipe files folder
 ```
 $ mkdir -p meta-layer/recipes-myproject/myproject/files
@@ -202,7 +202,42 @@ install:
         install -m 755 $(TARGET_HELLO) $(DESTDIR)$(bindir)/
 ```
 
+use `devtool` to add source
+```
+$ devtool add myproject meta-layer/recipes-myproject/myproject/files
+```
 
+list workspace
+```
+$ ls workspace/
+appends  conf  README  recipes  sources
+```
+myproject will be located in `recipes`
+```
+$ ls workspace/recipes/myproject/
+myproject.bb
+```
+
+check some env variables
+```
+$ bitbake -e myproject | grep ^WORKDIR=
+WORKDIR="....../tmp/work/core2-64-poky-linux/myproject/1.0-r0
+$ bitbake -e myproject | grep ^S=
+S="....../myproject/files"
+```
+
+edit myproject.bb in `workspace`
+```
+SRC_URI = "file://*"
+S = "${WORKDIR}"
+```
+
+build it and check it in `tmp/work/`
+```
+$ devtool build myproject
+or
+$ bitbake myproject 
+```
 
 
 ### bitbake
