@@ -1,0 +1,21 @@
+list all tags and branches fpr poky git repository 
+$ git ls-remote git://git.yoctoproject.org/poky
+
+clone poky 
+$ git clone --depth=1 -b $pokyver git://git.yoctoproject.org/poky $pokydir
+
+set up the poky environment 
+$ cd $pokydir $ . oe-init-build-env
+
+build the core-minimal-image, -vDDD is to show log 
+$ bitbake core-image-minimal -vDDD
+
+create layer 
+$ bitbake-layers create-layer meta-layer
+
+add layer 
+$ bitbake-layers add-layer meta-layer
+
+list files after create layer 
+$ ls 
+bitbake-cookerdaemon.log cache conf downloads meta-layer sstate-cache tmp
