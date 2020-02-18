@@ -1,6 +1,7 @@
 ### index
 - [devtool](#devtool)
 - [bitbake](#bitbake)
+- [poky](#poky)
 
 ### reference
 - [yocto project wiki](https://wiki.yoctoproject.org/wiki/Main_Page)
@@ -250,7 +251,20 @@ $ bitbake <package> -C <task>
 $ bitbake <package> -c <task>  -f
 ```
 
+check kernel version
+```
+# nxp i.mx6
+$ bitbake -e linux-imx | grep "^PV"
+# x86
+$ bitbake -e virtual/kernel | grep "^PV"
+```
 
+### poky
+check poky version
+```
+# nxp i.mx6
+$ grep "^DISTRO_VERSION *=" $BSPDIR/sources/poky/meta-poky/conf/distro/poky.conf
+```
 
 
 
