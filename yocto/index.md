@@ -51,8 +51,8 @@ $ bitbake-layers add-layer meta-layer
 ```
 
 ### list files after create layer 
-$ ls
 ```
+$ ls
 bitbake-cookerdaemon.log cache conf downloads meta-layer sstate-cache tmp
 ```
 
