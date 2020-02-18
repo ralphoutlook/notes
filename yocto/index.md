@@ -5,6 +5,8 @@
 - [reference guide](https://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html)
 - [application developer's guide](https://www.yoctoproject.org/docs/1.8.2/adt-manual/adt-manual.html)
 - [bitbake guide](https://bitbucket.org/a4z/bitbakeguide/src/master/)
+- [bitbake useful commands](#bitbake)
+
 
 ### ubuntu essential needed packages
 ```
