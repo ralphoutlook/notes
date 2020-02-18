@@ -1,6 +1,7 @@
 ### index
 - [devtool](#devtool)
 - [bitbake](#bitbake)
+
 ### reference
 - [yocto project wiki](https://wiki.yoctoproject.org/wiki/Main_Page)
 - [quick start](https://www.yoctoproject.org/docs/2.4.2/yocto-project-qs/yocto-project-qs.html)
@@ -17,6 +18,13 @@ $ sudo apt-get install -y gawk wget git-core diffstat unzip \
     python python3 python3-pip python3-pexpect xz-utils debianutils \
     iputils-ping libsdl1.2-dev xterm
 ```  
+
+for doc 
+```
+$ sudo apt-get install -y xmlto
+$ sudo apt-get install make xsltproc docbook-utils fop dblatex xmlto
+
+```
 
 ### list all tags and branches fpr poky git repository 
 ```
