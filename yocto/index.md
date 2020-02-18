@@ -47,10 +47,23 @@ $ git checkout tags/yocto-2.4.2 -b poky_2.4.2
 $ cd $pokydir $ . oe-init-build-env
 ```
 
-### build the core-minimal-image
+### build core-minimal-image
 -vDDD: show build log 
 ```
 $ bitbake core-image-minimal -vDDD
+```
+more information...
+```
+Build Configuration:
+BB_VERSION           = "1.44.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.0+snapshot-20200218"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
 ```
 
 ### create layer 
@@ -91,6 +104,13 @@ build giflib
 ```
 $ devtool build giflib
 ```
+
+giflib built objects
+```
+$ find tmp/work/*-poky-linux -mindepth 1 -maxdepth 1 -type d -name "giflib*"
+```
+
+
 
 
 ### bitbake
