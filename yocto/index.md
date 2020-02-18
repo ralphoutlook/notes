@@ -21,9 +21,9 @@ $ sudo apt-get install -y gawk wget git-core diffstat unzip \
 
 for doc 
 ```
+# only for devtool add giflib
 $ sudo apt-get install -y xmlto
 $ sudo apt-get install make xsltproc docbook-utils fop dblatex xmlto
-
 ```
 
 ### list all tags and branches fpr poky git repository 
