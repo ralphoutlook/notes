@@ -10,6 +10,7 @@
 - [application developer's guide](https://www.yoctoproject.org/docs/1.8.2/adt-manual/adt-manual.html)
 - [bitbake guide](https://bitbucket.org/a4z/bitbakeguide/src/master/)
 - [bitbake useful commands](#bitbake)
+- [yocyo project workflow](http://events17.linuxfoundation.org/sites/events/files/slides/2017%20ELC%20--%20Using%20devtool%20to%20Streamline%20your%20Yocto%20Project%20Workflow.pdf)
 
 
 ### ubuntu essential needed packages
@@ -118,6 +119,10 @@ $ mkdir -p meta-layer/recipes-myproject/myproject/files
 ```
 
 in `meta-layer/recipes-myproject/myproject/files`:    
+```
+$ ls meta-layer/recipes-myproject/myproject/files/
+hello.c  hello.h  hellolib.c  Makefile
+```
 hello.c
 ```
 SRCS := $(wildcard *.c)
@@ -195,6 +200,9 @@ install:
         install -d $(DESTDIR)$(bindir)
         install -m 755 $(TARGET_HELLO) $(DESTDIR)$(bindir)/
 ```
+
+
+
 
 ### bitbake
 basic bitbake tree
