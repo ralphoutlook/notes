@@ -56,4 +56,22 @@ $ ls
 bitbake-cookerdaemon.log cache conf downloads meta-layer sstate-cache tmp
 ```
 
+### devtool 
+add git open source, ex: giflib
+```
+$ devtool add giflib git://git.code.sf.net/p/giflib/code
+```
+then, list workspace
+```
+$ ls . workspace/recipes/giflib/
+.:
+bitbake-cookerdaemon.log  downloads               sstate-cache
+cache                     log.core-image-minimal  tmp
+conf                      meta-layer              workspace
+
+workspace/recipes/giflib/:
+giflib_git.bb
+```
+
+
 
