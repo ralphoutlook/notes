@@ -11,6 +11,7 @@
 - [bitbake guide](https://bitbucket.org/a4z/bitbakeguide/src/master/)
 - [bitbake useful commands](#bitbake)
 - [yocyo project workflow](http://events17.linuxfoundation.org/sites/events/files/slides/2017%20ELC%20--%20Using%20devtool%20to%20Streamline%20your%20Yocto%20Project%20Workflow.pdf)
+- [yocto using devtool workflow](https://www.yoctoproject.org/docs/current/sdk-manual/sdk-manual.html#using-devtool-in-your-sdk-workflow)
 
 
 ### ubuntu essential needed packages
