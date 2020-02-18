@@ -1,4 +1,6 @@
-
+### index
+- [devtool](#devtool)
+- [bitbake](#bitbake)
 ### reference
 - [yocto project wiki](https://wiki.yoctoproject.org/wiki/Main_Page)
 - [quick start](https://www.yoctoproject.org/docs/2.4.2/yocto-project-qs/yocto-project-qs.html)
@@ -64,6 +66,7 @@ add git open source, ex: giflib
 ```
 $ devtool add giflib git://git.code.sf.net/p/giflib/code
 ```
+
 then, list workspace
 ```
 $ ls . workspace/recipes/giflib/
@@ -74,6 +77,11 @@ conf                      meta-layer              workspace
 
 workspace/recipes/giflib/:
 giflib_git.bb
+```
+
+build giflib
+```
+$ devtool build giflib
 ```
 
 
