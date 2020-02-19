@@ -1,4 +1,5 @@
 ### Developing a Board Support Package (BSP)
+---
   - Set up your host development system to support development using the Yocto Project
   - Establish a local copy of the project files on your system
   - Establish the meta-intel repository on your system
